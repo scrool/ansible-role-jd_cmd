@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Pavol Babinčák
+  role_name: jd_cmd
+  description: >
+    Installs or uninstalls jd-cmd - a simple command line wrapper around JD
+    Core Java Decompiler project.
+  company: none
+  license: MIT
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 31
+
+  galaxy_tags:
+    - java
+
+dependencies: []

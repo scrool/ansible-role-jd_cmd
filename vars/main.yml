@@ -1,0 +1,4 @@
+---
+# vars file for jd_cmd
+install_dest_full: "{{ jd_cmd_install_parent_dir }}/{{ jd_cmd_top_dest_name }}"
+executable_full: /usr/local/bin/jd-cli

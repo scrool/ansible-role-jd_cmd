@@ -1,0 +1,27 @@
+---
+# unarchive tasks file for jd_cmd
+- name: Fail if archive src is not set
+  fail:
+    msg: To unarchive jd_cmd_archive_src must be set
+  when: jd_cmd_archive_src | length == 0
+
+- name: Create a temporary directory for unarchive
+  tempfile:
+    state: directory
+  register: jd_cmd_temp_dir
+  notify: Remove temporary jd-cmd directory for unarchive
+  when: not ansible_check_mode
+
+- name: Top level directory in temporary directory
+  file:
+    path: "{{ jd_cmd_temp_dir.path }}/{{ jd_cmd_top_dest_name }}"
+    state: directory
+    mode: '0755'
+
+- name: Unarchive the source archive
+  unarchive:
+    src: "{{ jd_cmd_archive_src }}"
+    dest: "{{ jd_cmd_temp_dir.path }}/{{ jd_cmd_top_dest_name }}"
+    list_files: yes
+    remote_src: "{{ '://' in jd_cmd_archive_src }}"
+  when: not ansible_check_mode

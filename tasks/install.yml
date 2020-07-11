@@ -1,0 +1,41 @@
+---
+# install tasks file for jd_cmd
+- name: Unarchive
+  become: yes
+  block:
+    - name: Include unarchive tasks
+      include_tasks: unarchive.yml
+
+- name: Install unarchived content
+  become: yes
+  block:
+    - name: Ensure rsync is installed
+      package:
+        name:
+          - rsync
+        state: present
+      notify: Remove rsync
+
+    - name: Compare unarchived content with installed
+      synchronize:
+        src: "{{ jd_cmd_temp_dir.path }}/{{ jd_cmd_top_dest_name }}/"
+        dest: "{{ install_dest_full }}/"
+        checksum: yes
+        owner: no
+        times: no
+        delete: no
+      delegate_to: "{{ inventory_hostname }}"
+      when: not ansible_check_mode
+
+    - name: Installation directory
+      file:
+        path: "{{ install_dest_full }}"
+        state: directory
+        mode: '0755'
+
+- name: Create executable for jd-cmd
+  become: yes
+  template:
+    src: jd-cmd.j2
+    dest: "{{ executable_full }}"
+    mode: '0555'

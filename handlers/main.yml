@@ -1,0 +1,19 @@
+---
+# handlers file for jd_cmd
+- name: Remove temporary jd-cmd directory for unarchive
+  become: yes
+  file:
+    name: "{{ jd_cmd_temp_dir.path }}"
+    state: absent
+
+- name: Remove temporary file for executable
+  become: yes
+  file:
+    name: "{{ jd_cmd_exe_tmp.path }}"
+    state: absent
+
+- name: Remove rsync
+  become: yes
+  package:
+    name: rsync
+    state: absent

@@ -1,0 +1,19 @@
+---
+# defaults file for jd_cmd
+# Path to an release archive of jd-cmd on a control host or URL to download the
+# archive from.
+jd_cmd_archive_src: ""
+
+# By default installs the program. Set to "absent" to uninstall.
+jd_cmd_state: present
+
+# Base name of installation directory.
+jd_cmd_top_dest_name: jd-cmd
+
+# Parent directory in which program will be installed. See also
+# `jd_cmd_top_dest_name`.
+jd_cmd_install_parent_dir: /opt
+
+# If set to "yes", contents of installation directory is not compared against
+# contents of `jd_cmd_archive_src` when uninstall, upgrade or downgrade.
+jd_cmd_force_remove: no

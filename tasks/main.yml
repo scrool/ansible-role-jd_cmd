@@ -1,0 +1,27 @@
+---
+# tasks file for jd_cmd
+- name: Fail if desired state is invalid
+  fail:
+    msg: State variable must be either "present" or "absent"
+  when: jd_cmd_state not in ["present", "absent"]
+
+- name: Fail if dest name is not set
+  fail:
+    msg: jd_cmd_top_dest_name must be defined
+  when: jd_cmd_top_dest_name | length == 0
+
+- name: Uninstall tasks of jd-cmd
+  include_tasks: uninstall.yml
+  when:
+    - jd_cmd_state == "absent"
+    - jd_cmd_force_remove | bool
+
+- name: Install tasks of jd-cmd
+  include_tasks: install.yml
+  when: jd_cmd_state == "present"
+
+- name: Safe uninstall tasks of jd-cmd
+  include_tasks: safe_uninstall.yml
+  when:
+    - jd_cmd_state == "absent"
+    - not (jd_cmd_force_remove | bool)

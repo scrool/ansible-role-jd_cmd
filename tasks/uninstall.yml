@@ -1,0 +1,13 @@
+---
+# uninstall tasks file for jd_cmd
+- name: Remove installed content
+  become: yes
+  file:
+    name: "{{ install_dest_full }}"
+    state: absent
+
+- name: Remove the executable
+  become: yes
+  file:
+    path: "{{ executable_full }}"
+    state: absent

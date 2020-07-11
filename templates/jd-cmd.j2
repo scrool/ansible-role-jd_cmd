@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eu
+
+topdir={{ install_dest_full }}
+
+jarfile=jd-cli.jar
+if [ ! -r "$topdir/$jarfile" ]
+then
+    echo $(basename "$0")": can't find $jarfile under '$topdir'."
+    exit 1
+fi
+
+JAVA_OPTS="${JAVA_OPTS:--Xmx512M -Dfile.encoding=utf-8}"
+
+exec java $JAVA_OPTS -jar "$topdir/$jarfile" "$@"
